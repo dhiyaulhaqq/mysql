@@ -45,6 +45,7 @@ mysqli_close($conn);
 <?php include('include/header.php'); ?>
 
 <div class="container">
+    <a href="<?php echo ROOT_URL ?>" class="btn btn-primary mb-3">Go Back</a>
     <div class="card border-primary rounded mb-3">
         <div class="card-header">
             <h2 class="text-primary font-weight-normal"><?php echo $post['title']; ?>
