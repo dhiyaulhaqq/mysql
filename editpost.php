@@ -1,11 +1,24 @@
 <?php
 
-// Include debugging tool
-require('debugging.php');
+// Include message library
+require('message.php');
 
 // Include database and configuration
 require('config/config.php');
 require('config/db.php');
+
+session_start();
+
+// check authorization
+if (empty($_SESSION['session_id'])) {
+    echo 'You are not login <br>';
+    var_dump(isset($_SESSION));
+    echo '<pre>';
+    print_r($_SESSION);
+    echo '</pre>';
+    exit();
+    header('Location: ' . ROOT_URL . 'login.php');
+}
 
 // Check for submit
 if (isset($_POST['submit'])) {
@@ -22,7 +35,7 @@ if (isset($_POST['submit'])) {
             WHERE id = {$update_id} ";
 
     if (mysqli_query($conn, $query)) {
-        header('Location: ' . ROOT_URL . '');
+        header('Location: ' . ROOT_URL . 'post.php?id=' . $update_id);
     } else {
         writep($query);
         writep('ERROR: ' . mysqli_error($conn));
@@ -68,9 +81,9 @@ mysqli_close($conn);
             <textarea type="text" name="body" class="form-control"><?php echo $post['body']; ?></textarea>
         </div>
         <input type="hidden" name="update_id" class="form-control" value="<?php echo $post['id']; ?>">
-        <input type="submit" name="submit" value="Submit" class="btn btn-primary">
+        <input type="submit" name="submit" value="Update" class="btn btn-primary">
         <a href="<?php echo ROOT_URL; ?>post.php?id=<?php echo $post['id']; ?>" class="btn btn-warning">Cancel</a>
     </form>
 </div>
 
-<?php include('include/footer.php'); ?> 
+<?php include('include/footer.php'); ?>

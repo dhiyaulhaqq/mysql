@@ -10,10 +10,19 @@
                 <li class="nav-item">
                     <a href="<?php echo ROOT_URL; ?>" class="nav-link">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a href="<?php echo ROOT_URL; ?>addpost.php" class="nav-link">Add Post</a>
-                </li>
+                <?php if (!empty($_SESSION['session_id'])) : ?>
+                    <li class="nav-item">
+                        <a href="<?php echo ROOT_URL; ?>dashboard.php" class="nav-link">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php echo ROOT_URL; ?>logout.php" class="nav-link">Logout</a>
+                    </li>
+                <?php else : ?>
+                    <li class="nav-item">
+                        <a href="<?php echo ROOT_URL; ?>login.php" class="nav-link">Login</a>
+                    </li>
+                <?php endif ?>
             </ul>
         </div>
     </div>
-</nav> 
+</nav>

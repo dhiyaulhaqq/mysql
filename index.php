@@ -1,11 +1,13 @@
 <?php
 
-// Include debugging tool
-require('debugging.php');
+// Include message library
+require('message.php');
 
 // Include database and configuration
 require('config/config.php');
 require('config/db.php');
+
+session_start();
 
 // Create Query
 $query = 'SELECT * FROM posts ORDER BY created_at DESC';
