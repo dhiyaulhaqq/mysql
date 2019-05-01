@@ -70,15 +70,15 @@ mysqli_close($conn);
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
         <div class="form-group">
             <label for="title">Title</label>
-            <input type="text" name="title" class="form-control" value="<?php echo $post['title']; ?>">
+            <input type="text" name="title" class="form-control" value="<?php echo $post['title']; ?>" required>
         </div>
         <div class="form-group">
             <label for="author">Author</label>
-            <input type="text" name="author" class="form-control" value="<?php echo $post['author']; ?>">
+            <input type="text" name="author" class="form-control" value="<?php echo $post['author']; ?>" required>
         </div>
         <div class="form-group">
             <label for="body">Body</label>
-            <textarea type="text" name="body" class="form-control"><?php echo $post['body']; ?></textarea>
+            <textarea type="text" name="body" class="form-control" required><?php echo $post['body']; ?></textarea>
         </div>
         <input type="hidden" name="update_id" class="form-control" value="<?php echo $post['id']; ?>">
         <input type="submit" name="submit" value="Update" class="btn btn-primary">
