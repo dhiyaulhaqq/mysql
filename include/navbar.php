@@ -17,6 +17,9 @@
                     <li class="nav-item">
                         <a href="<?php echo ROOT_URL; ?>logout.php" class="nav-link">Logout</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="<?php echo ROOT_URL . 'profil.php' ?>" class="nav-link"><?php echo $_SESSION['username'] ?></a>
+                    </li>
                 <?php else : ?>
                     <li class="nav-item">
                         <a href="<?php echo ROOT_URL; ?>login.php" class="nav-link">Login</a>
