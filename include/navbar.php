@@ -21,6 +21,9 @@
                     <li class="nav-item">
                         <a href="<?php echo ROOT_URL; ?>login.php" class="nav-link">Login</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="<?php echo ROOT_URL; ?>register.php" class="nav-link">Register</a>
+                    </li>
                 <?php endif ?>
             </ul>
         </div>
