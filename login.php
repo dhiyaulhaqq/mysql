@@ -46,18 +46,24 @@ if (isset($_POST['submit'])) {
         $error = 'User email not found';
     }
 
+    // check for password
     if ($valid) {
         // get user data
         $user = array_filter($users, function ($user) use ($email) {
             return $user['email'] === $email;
         });
 
-        $user_password = array_pop($user)['password'];
+        $user = array_pop($user);
+        $user_password = $user['password'];
+        $username = $user['name'];
+        $userid = $user['id'];
 
         if (password_verify($password, $user_password)) {
             // authorization
             session_regenerate_id();
             $_SESSION['session_id'] = session_id();
+            $_SESSION['username'] = $username;
+            $_SESSION['userid'] = $userid;
             header('Location: ' . ROOT_URL . 'dashboard.php');
         } else {
             $error = 'Invalid password';
