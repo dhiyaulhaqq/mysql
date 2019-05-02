@@ -10,12 +10,6 @@ require('config/db.php');
 session_start();
 
 if (empty($_SESSION['session_id'])) {
-    echo 'You are not login <br>';
-    var_dump(isset($_SESSION));
-    echo '<pre>';
-    print_r($_SESSION);
-    echo '</pre>';
-    exit();
     header('Location: ' . ROOT_URL . 'login.php');
 }
 
