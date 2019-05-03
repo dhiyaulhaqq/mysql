@@ -36,6 +36,7 @@ mysqli_close($conn);
 <?php include('include/header.php'); ?>
 
 <div class="container">
+    <a href="<?php echo ROOT_URL . 'editprofil.php' ?>" class="btn btn-primary mb-3">Edit profil</a>
     <h1 class="display-4"><?php echo $user['name'] ?></h1>
     <p><?php echo $user['email'] ?></p>
 </div>
