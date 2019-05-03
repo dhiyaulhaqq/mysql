@@ -24,10 +24,10 @@ if (empty($_SESSION['session_id'])) {
 if (isset($_POST['submit'])) {
     // Get Form Data
     $title = mysqli_real_escape_string($conn, $_POST['title']);
-    $author = mysqli_real_escape_string($conn, $_POST['author']);
     $body = mysqli_real_escape_string($conn, $_POST['body']);
+    $user_id = $_SESSION['userid'];
 
-    $query = "INSERT INTO posts(title, author, body) VALUES ('$title', '$author', '$body')";
+    $query = "INSERT INTO posts(title, body, user_id) VALUES ('$title', '$body', '$user_id')";
     if (mysqli_query($conn, $query)) {
         header('Location: ' . ROOT_URL . 'dashboard.php');
     } else {
@@ -46,10 +46,6 @@ if (isset($_POST['submit'])) {
         <div class="form-group">
             <label for="title">Title</label>
             <input type="text" name="title" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="author">Author</label>
-            <input type="text" name="author" class="form-control" required>
         </div>
         <div class="form-group">
             <label for="body">Body</label>

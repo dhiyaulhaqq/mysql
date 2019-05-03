@@ -28,7 +28,18 @@ if (isset($_POST['delete'])) {
 $id = mysqli_real_escape_string($conn, $_GET['id']);
 
 // Create Query
-$query = 'SELECT * FROM posts WHERE id = ' . $id;
+$query = '
+    SELECT
+        p.id,
+        p.title,
+        p.body,
+        p.created_at,
+        user.id AS userid,
+        user.name AS username
+    FROM posts p 
+    INNER JOIN user
+    ON p.user_id = user.id
+    WHERE p.id = ' . $id;
 
 // Get Result
 $result = mysqli_query($conn, $query);
@@ -59,7 +70,7 @@ mysqli_close($conn);
         <div class="card-header">
             <h2 class="text-primary font-weight-normal"><?php echo $post['title']; ?>
                 <span class="h6 text-muted">
-                    Created by <?php echo $post['author']; ?>
+                    Created by <?php echo $post['username']; ?>
                     on <?php echo $post['created_at']; ?>
                 </span>
             </h2>
@@ -67,14 +78,16 @@ mysqli_close($conn);
         <div class="card-body">
             <p class="card-text"><?php echo $post['body']; ?></p>
             <?php if (!empty($_SESSION['session_id'])) : ?>
-                <hr>
-                <div class="d-flex justify-content-between">
-                    <a href="<?php echo ROOT_URL; ?>editpost.php?id=<?php echo $post['id'] ?>" class="btn btn-outline-primary">Edit Post</a>
-                    <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-                        <input type="hidden" name="delete_id" class="form-control" value="<?php echo $post['id']; ?>">
-                        <input type="submit" name="delete" value="Delete" class="btn btn-outline-danger">
-                    </form>
-                </div>
+                <?php if ($post['userid'] === $_SESSION['userid']) : ?>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <a href="<?php echo ROOT_URL; ?>editpost.php?id=<?php echo $post['id'] ?>" class="btn btn-outline-primary">Edit Post</a>
+                        <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+                            <input type="hidden" name="delete_id" class="form-control" value="<?php echo $post['id']; ?>">
+                            <input type="submit" name="delete" value="Delete" class="btn btn-outline-danger">
+                        </form>
+                    </div>
+                <?php endif ?>
             <?php endif ?>
         </div>
     </div>

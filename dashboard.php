@@ -27,7 +27,7 @@ if (isset($_POST['delete'])) {
 }
 
 // Create Query
-$query = 'SELECT * FROM posts ORDER BY created_at DESC';
+$query = "SELECT * FROM posts WHERE user_id = {$_SESSION['userid']} ORDER BY created_at DESC";
 
 // Get Result
 $result = mysqli_query($conn, $query);

@@ -10,7 +10,18 @@ require('config/db.php');
 session_start();
 
 // Create Query
-$query = 'SELECT * FROM posts ORDER BY created_at DESC';
+$query = '
+    SELECT
+        p.id,
+        p.title,
+        p.body,
+        p.created_at,
+        user.id AS userid,
+        user.name AS username
+    FROM posts p 
+    INNER JOIN user
+    ON p.user_id = user.id
+    ORDER BY p.created_at DESC';
 
 // Get Result
 $result = mysqli_query($conn, $query);
@@ -41,7 +52,7 @@ mysqli_close($conn);
                 <div class="card-header">
                     <h3 class="text-primary font-weight-normal"><?php echo $post['title']; ?>
                         <span class="h6 text-muted">
-                            Created by <?php echo $post['author']; ?>
+                            Created by <?php echo $post['username']; ?>
                             on <?php echo $post['created_at']; ?>
                         </span>
                     </h3>

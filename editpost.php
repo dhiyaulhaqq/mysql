@@ -23,19 +23,17 @@ if (empty($_SESSION['session_id'])) {
 // Check for submit
 if (isset($_POST['submit'])) {
     // Get Form Data
-    $update_id = mysqli_real_escape_string($conn, $_POST['update_id']);
+    $post_id = mysqli_real_escape_string($conn, $_POST['post_id']);
     $title = mysqli_real_escape_string($conn, $_POST['title']);
-    $author = mysqli_real_escape_string($conn, $_POST['author']);
     $body = mysqli_real_escape_string($conn, $_POST['body']);
 
     $query = "UPDATE posts SET
             title = '$title',
-            author = '$author',
             body = '$body'
-            WHERE id = {$update_id} ";
+            WHERE id = {$post_id} ";
 
     if (mysqli_query($conn, $query)) {
-        header('Location: ' . ROOT_URL . 'post.php?id=' . $update_id);
+        header('Location: ' . ROOT_URL . 'post.php?id=' . $post_id);
     } else {
         writep($query);
         writep('ERROR: ' . mysqli_error($conn));
@@ -73,14 +71,10 @@ mysqli_close($conn);
             <input type="text" name="title" class="form-control" value="<?php echo $post['title']; ?>" required>
         </div>
         <div class="form-group">
-            <label for="author">Author</label>
-            <input type="text" name="author" class="form-control" value="<?php echo $post['author']; ?>" required>
-        </div>
-        <div class="form-group">
             <label for="body">Body</label>
             <textarea type="text" name="body" class="form-control" required><?php echo $post['body']; ?></textarea>
         </div>
-        <input type="hidden" name="update_id" class="form-control" value="<?php echo $post['id']; ?>">
+        <input type="hidden" name="post_id" class="form-control" value="<?php echo $post['id']; ?>">
         <input type="submit" name="submit" value="Update" class="btn btn-primary">
         <a href="<?php echo ROOT_URL; ?>post.php?id=<?php echo $post['id']; ?>" class="btn btn-warning">Cancel</a>
     </form>
