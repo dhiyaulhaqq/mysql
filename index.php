@@ -45,24 +45,33 @@ mysqli_close($conn);
 <?php include('include/header.php'); ?>
 
 <div class="container">
+    <div class="jumbotron text-center mb-3">
+        <h1 class="display-4">PHP BLOG</h1>
+        <p>This is my blog app using PHP and MySQL created by Iqbal</p>
+    </div>
+</div>
+
+<div class="container">
     <h1 class="display-4">Posts</h1>
     <?php if ($posts) : ?>
-        <?php foreach ($posts as $post) : ?>
-            <div class="card border-primary rounded mb-3">
-                <div class="card-header">
-                    <h3 class="text-primary font-weight-normal"><?php echo $post['title']; ?>
-                        <span class="h6 text-muted">
-                            Created by <?php echo $post['username']; ?>
-                            on <?php echo $post['created_at']; ?>
-                        </span>
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <p class="card-text"><?php echo $post['body']; ?></p>
-                    <a class="btn btn-outline-primary" href="<?php echo ROOT_URL; ?>post.php?id=<?php echo $post['id']; ?>">Read More...</a>
-                </div>
-            </div>
-        <?php endforeach; ?>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($posts as $post) : ?>
+                    <tr>
+                        <td>
+                            <a href="<?php echo ROOT_URL . 'post.php?id=' . $post['id'] ?>" class="text-dark"><?php echo $post['title'] ?></a>
+                        </td>
+                        <td><?php echo $post['username'] ?></td>
+                    </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
     <?php else : ?>
         <p>No Post</p>
     <?php endif ?>
