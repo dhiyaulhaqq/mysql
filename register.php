@@ -13,25 +13,32 @@ $error = false;
 
 // Check for submit
 if (isset($_POST['submit'])) {
-    // Get users data
-    $query = 'SELECT * FROM user';
 
-    // Get Result
-    $result = mysqli_query($conn, $query);
+    function getUserData($conn)
+    {
+        // Get users data
+        $query = 'SELECT * FROM user';
 
-    if ($result) {
-        // Fetch Data
-        $user = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        // Get Result
+        $result = mysqli_query($conn, $query);
 
-        // Free Result
-        mysqli_free_result($result);
-    } else {
-        $user = [];
+        if ($result) {
+            // Fetch Data
+            $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+            // Free Result
+            mysqli_free_result($result);
+        } else {
+            $users = [];
+        }
+        return $users;
     }
+
+    $users = getUserData($conn);
 
     $list_email = array_map(function ($user) {
         return $user['email'];
-    }, $user);
+    }, $users);
 
     // Get Form Data
     $name = mysqli_real_escape_string($conn, $_POST['name']);
@@ -53,13 +60,27 @@ if (isset($_POST['submit'])) {
         $error = 'Email has already been taken';
     }
 
-    $hash_password = password_hash($password, PASSWORD_DEFAULT);
-
     if (!$error) {
+        $hash_password = password_hash($password, PASSWORD_DEFAULT);
+
         $query = "INSERT INTO user(name, email, password) VALUES ('$name', '$email', '$hash_password')";
         if (mysqli_query($conn, $query)) {
             session_regenerate_id();
-            $_SESSION['session_id'] = session_id();
+            $_SESSION['session_id'] = session_id();;
+            $_SESSION['username'] = $name;
+
+            $users = getUserData($conn);
+
+            // get last user id
+            $last_id = 0;
+            foreach ($users as $user) {
+                $last_id = $user['id'];
+            };
+
+            $user_id = $last_id;
+
+            $_SESSION['userid'] = $user_id;
+
             header('Location: ' . ROOT_URL . 'dashboard.php');
         } else {
             writep($query);
