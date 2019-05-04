@@ -49,14 +49,23 @@ if (isset($_POST['submit'])) {
     // check for password
     if ($valid) {
         // get user data
-        $user = array_filter($users, function ($user) use ($email) {
-            return $user['email'] === $email;
-        });
+        $query = "SELECT * FROM user WHERE email = '$email'";
 
-        $user = array_pop($user);
-        $user_password = $user['password'];
-        $username = $user['name'];
+        // Get Result
+        $result = mysqli_query($conn, $query);
+
+        if ($result) {
+            // Fetch Data
+            $user = mysqli_fetch_assoc($result);
+
+            // Free Result
+            mysqli_free_result($result);
+        } else {
+            $user = [];
+        }
+
         $userid = $user['id'];
+        $user_password = $user['password'];
 
         if (password_verify($password, $user_password)) {
             // authorization

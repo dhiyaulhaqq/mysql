@@ -69,15 +69,23 @@ if (isset($_POST['submit'])) {
             $_SESSION['session_id'] = session_id();;
             $_SESSION['username'] = $name;
 
-            $users = getUserData($conn);
+            // Get user data
+            $query = "SELECT id FROM user WHERE email = '$email'";
 
-            // get last user id
-            $last_id = 0;
-            foreach ($users as $user) {
-                $last_id = $user['id'];
-            };
+            // Get Result
+            $result = mysqli_query($conn, $query);
 
-            $user_id = $last_id;
+            if ($result) {
+                // Fetch Data
+                $user = mysqli_fetch_assoc($result);
+
+                // Free Result
+                mysqli_free_result($result);
+            } else {
+                $user = [];
+            }
+
+            $user_id = $user['id'];
 
             $_SESSION['userid'] = $user_id;
 
