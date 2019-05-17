@@ -65,6 +65,7 @@ if (isset($_POST['submit'])) {
         }
 
         $userid = $user['id'];
+        $username = $user['name'];
         $user_password = $user['password'];
 
         if (password_verify($password, $user_password)) {
